@@ -48,7 +48,7 @@ drawGraph = (newData) => {
   });
 }
 
-// call fanction
+// call function
 getResponse()
   .then(newData => drawGraph(newData))
   .then(error => console.log(error));
