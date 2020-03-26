@@ -1,3 +1,4 @@
+// get response from server
 getResponse = async () => {
   const endpoint = 'https://api.coindesk.com/v1/bpi/historical/close.json';
 
@@ -8,20 +9,11 @@ getResponse = async () => {
   return newData;
 }
 
-getDate = (array) => {
-  const newArray = array.map(function(item) {
-    return moment(item[0]).format("Do MMM YYYY");
-  });
-  return newArray;
-}
+// get and format a date, get and round rate of bitcoin
+getDate = (array) => newArray = array.map(item => moment(item[0]).format("Do MMM YYYY"));
+getRate = (array) => newArray = array.map(item => item[1].toFixed(2));
 
-getRate = (array) => {
-  const newArray = array.map(function(item) {    
-    return item[1].toFixed(2);
-  });
-  return newArray;
-}
-
+// draw a graph
 drawGraph = (newData) => {
   const ctx = document.getElementById('myChart').getContext('2d');
   const chart = new Chart(ctx, {
@@ -33,9 +25,9 @@ drawGraph = (newData) => {
           datasets: [{
               label: 'Bitcoin',
               pointBackgroundColor: 'rgb(32, 102, 146)',
-              pointBorderColor: 'rgb(32, 102, 146)',
+              pointBorderColor: 'rgba(32, 102, 146, 1)',
               backgroundColor: 'rgba(192, 222, 241, 0.5)',
-              borderColor: 'rgb(42, 131, 188)',
+              borderColor: 'rgba(42, 131, 188, 1)',
               borderWidth: 2,
               data: getRate(newData),
               pointStyle: 'cirlce',
@@ -46,16 +38,17 @@ drawGraph = (newData) => {
       options: {
         scales: {
             yAxes: [{
-                stacked: false,
+                stacked: false
             }]
         },
         legend: {
-          display: false,
+          display: false
         },
       },
   });
 }
 
+// call fanction
 getResponse()
   .then(newData => drawGraph(newData))
   .then(error => console.log(error));
